@@ -46,8 +46,8 @@ public class MangaDexReader {
 
 			// Login
 			webDriver.findElement(By.name("login_username")).sendKeys(
-					"trollny");
-			webDriver.findElement(By.name("login_password")).sendKeys("tuan2001");
+					"username go here");
+			webDriver.findElement(By.name("login_password")).sendKeys("pw go here");
 			webDriver.findElement(By.id("login_button")).click();
 			Thread.sleep(500);
 			// If anything goes wrong, print out the error.
