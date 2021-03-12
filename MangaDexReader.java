@@ -1,9 +1,13 @@
 package com.example.MangaDexReader;
 
+import com.codeborne.selenide.Browser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -42,11 +46,11 @@ public class MangaDexReader {
 
 			// Login
 			webDriver.findElement(By.name("login_username")).sendKeys(
-					"your username");
-			webDriver.findElement(By.name("login_password")).sendKeys("your pw");
+					"trollny");
+			webDriver.findElement(By.name("login_password")).sendKeys("tuan2001");
 			webDriver.findElement(By.id("login_button")).click();
-
-			// If anything goes wrong, return false.
+			Thread.sleep(500);
+			// If anything goes wrong, print out the error.
 		} catch (final Exception e) {
 			System.out.println(e.getClass().toString());
 		}
@@ -57,10 +61,10 @@ public class MangaDexReader {
 	 */
 	private static void randomPicker() {
 		try {
-			//will naviagte to a random manga
+			// Navigate to a random manga
 			webDriver.navigate().to("https://mangadex.org/manga");
 			
-			// If anything goes wrong, return false.
+			// If anything goes wrong, print out the error.
 		} catch (final Exception e) {
 			System.out.println(e.getClass().toString());
 		}
@@ -69,27 +73,27 @@ public class MangaDexReader {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unchecked")
 	private static void autoScroll() {
 		try {
-			// Start with the first chapter avalaible
-			//String id =
-					//webDriver.findElements(By.id("data-id")).get(0).getText();
-			//webDriver.navigate().to("https://mangadex.org/chapter/" + id);
 
-			webDriver.findElements(By.className("text-truncate")).get(0).click();
+			// Get the url to the title page
+			webDriver.findElement(By.linkText("Chapters")).click();
+			String og_url = webDriver.getCurrentUrl();
+			String url = og_url.substring(0, og_url.length() - 10);
 
+			// Start with the first chapter available
+			webDriver.findElements(By.linkText("Oneshot")).get(1).click();
 
-			// auto click to next page
-			int total = Integer.parseInt(
-					webDriver.findElement(By.className("total-pages")).getText());
-			for (int i = 1; i < total; i++) {
-				Thread.sleep(5000);
-				webDriver.navigate().to("https://mangadex.org/chapter/"); //+
-				// id +
-						//"/" + i);
+			// auto click to next page, and next chapter
+			while (!url.equals(webDriver.getCurrentUrl())) {
+
+				//control pause between clicks
+				Thread.sleep(500);
+				webDriver.findElement(By.partialLinkText("MangaDex")).sendKeys(Keys.ARROW_RIGHT);
 			}
 
-		// If anything goes wrong, return false.
+		// If anything goes wrong, print out the error.
 		} catch (final Exception e) {
 			System.out.println(e.getClass().toString());
 		}
